@@ -2,7 +2,7 @@
   <div class="container">
     <header>
       <NavBar />
-      <RouterPath />
+      <RouterMenu />
     </header>
     <div>
       <slot />
@@ -17,5 +17,8 @@
   max-width: min(95%, 1280px);
   margin-inline: auto;
   color: #1f2432;
+}
+header {
+  margin-bottom: 50px;
 }
 </style>

@@ -1,9 +1,6 @@
 <template>
   <div class="wrapper">
-    <img
-      src="~/assets/icons/cart/badge.svg"
-      style="width: 32px; height: 32px"
-    />
+    <img src="~/assets/icons/cart.svg" style="width: 32px; height: 32px" />
     <div class="cart-stats">
       <span class="title">Ваша корзина</span>
       <span class="products">3 товара</span>
@@ -39,7 +36,7 @@ div {
     color: #797b86;
   }
   .cost {
-    margin-top: -2px;
+    margin-top: -1px;
   }
 
   .cart-stats {

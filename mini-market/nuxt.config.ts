@@ -1,3 +1,3 @@
 export default defineNuxtConfig({
-  modules: ["nuxt-icons", "@nuxt/image-edge"],
+  css: ["~/assets/styles/main.scss"],
 });
