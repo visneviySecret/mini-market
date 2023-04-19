@@ -16,6 +16,7 @@
 .container {
   max-width: min(95%, 1280px);
   margin-inline: auto;
+  margin-bottom: 115px;
   color: #1f2432;
 }
 header {

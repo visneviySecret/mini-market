@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <span />
-  </div>
+  <button>
+    <div>
+      <span />
+    </div>
+  </button>
 </template>
 
 <script setup></script>
