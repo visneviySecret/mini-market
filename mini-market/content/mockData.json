@@ -2,47 +2,51 @@
   "products": [
     {
       "id": 1,
-      "title": "BXC",
+      "model": "BXC",
+      "title": "Вытяжное устройство G2HBXC",
       "subTitle": "Вытяжное устройство для механической системы вентиляции",
       "cost": "25 288",
       "minCost": "6 848",
       "maxCost": "56 584",
       "article": "G2H1065",
       "specs": "12-72/168 м3/ч / гидрорегулируемый расход / от датчика присутствия",
-      "picture": "./assets/img1.png"
+      "picture": "/images/img1.png"
     },
     {
       "id": 2,
-      "title": "G2H",
+      "model": "G2H",
+      "title": "Вытяжное устройство G2HG2H",
       "subTitle": "Многофункциональное вытяжное устройство для естественной и гибридной вентиляции",
       "cost": "25 288",
       "minCost": "6 848",
       "maxCost": "56 584",
       "article": "G2H1065",
       "specs": "12-72/168 м3/ч / гидрорегулируемый расход / от датчика присутствия",
-      "picture": "./assets/img2.png"
+      "picture": "/images/img2.png"
     },
     {
       "id": 3,
-      "title": "GHN",
+      "model": "GHN",
+      "title": "Вытяжное устройство G2HGHN",
       "subTitle": "Вытяжное устройство с датчиком присутствия",
       "cost": "25 288",
       "minCost": "6 848",
       "maxCost": "56 584",
       "article": "G2H1065",
       "specs": "12-72/168 м3/ч / гидрорегулируемый расход / от датчика присутствия",
-      "picture": "./assets/img3.png"
+      "picture": "/images/img3.png"
     },
     {
       "id": 4,
-      "title": "TDA",
+      "model": "TDA",
+      "title": "Вытяжное устройство G2HTDA",
       "subTitle": "Вытяжное устройство с датчиком присутствия",
       "cost": "25 288",
       "minCost": "6 848",
       "maxCost": "56 584",
       "article": "G2H1065",
       "specs": "12-72/168 м3/ч / гидрорегулируемый расход / от датчика присутствия",
-      "picture": "./assets/img4.png"
+      "picture": "/images/img4.png"
     }
   ]
 }

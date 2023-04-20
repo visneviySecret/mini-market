@@ -5,6 +5,7 @@ module.exports = {
     $nuxt: true,
   },
   parserOptions: {
-    parser: "babel-eslint",
+    parser: "@babel/eslint-parser",
   },
+  requireConfigFile: false,
 };

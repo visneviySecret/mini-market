@@ -6,4 +6,5 @@ export default defineNuxtConfig({
       meta: [{ name: "description", content: "Управляй своей корзиной" }],
     },
   },
+  modules: ["@nuxt/image-edge"],
 });

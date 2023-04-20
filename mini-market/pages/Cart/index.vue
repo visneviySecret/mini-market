@@ -8,7 +8,9 @@
           <span class="clear-cart">Очистить корзину</span>
         </header>
         <div class="product-list">
-          <ProductBuyCard />
+          <div v-for="product in products" :key="product.id">
+            <ProductBuyCard :product="product" />
+          </div>
           <InstallOption />
         </div>
       </div>
@@ -23,6 +25,7 @@
 <script setup>
 import ProductBuyCard from "@/Share/ProductBuyCard/index";
 import InstallOption from "@/Share/InstallOption/index";
+import { products } from "@/content/mockData.json";
 </script>
 
 <style scoped lang="scss">

@@ -1,12 +1,12 @@
 <template>
   <div class="wrapper">
-    <img src="~/assets/images/img1.png" alt="Вытяжное устройство G2H" />
+    <nuxt-img :src="product.picture" :alt="product.title" />
     <div class="content">
-      <h3 class="content__title">Вытяжное устройство G2H</h3>
+      <h3 class="content__title">{{ product.title }}</h3>
       <p class="content__specs">
-        12-72/168 м3/ч / гидрорегулируемый расход / от датчика присутствия
+        {{ product.specs }}
       </p>
-      <p class="content__article">Артикул: G2H1065</p>
+      <p class="content__article">Артикул: {{ product.article }}</p>
     </div>
     <ControlButtons />
     <span class="cost">12 644 ₽</span>
@@ -19,7 +19,8 @@
 <script setup>
 import CrossIcon from "@/UI/CrossIcon/index";
 import ControlButtons from "@/Share/ControlButtons/index";
-console.log("hi from product card)");
+
+const { product } = defineProps(["product"]);
 </script>
 
 <style lang="scss" scoped>
