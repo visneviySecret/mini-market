@@ -1,12 +1,16 @@
 <template>
   <div>
-    <button class="left">-</button>
-    <button>1</button>
-    <button class="right">+</button>
+    <button class="left" @click="handleDecrement">-</button>
+    <button>{{ count }}</button>
+    <button class="right" @click="handleIncrement">+</button>
   </div>
 </template>
 
-<script setup></script>
+<script>
+export default {
+  props: ["count", "handleIncrement", "handleDecrement"],
+};
+</script>
 
 <style lang="scss" scoped>
 div {

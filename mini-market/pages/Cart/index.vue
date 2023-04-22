@@ -5,11 +5,11 @@
         <header>
           <h1>Ваша корзина</h1>
           <span class="cart-counter">4 товара</span>
-          <span class="clear-cart">Очистить корзину</span>
+          <span class="clear-cart" @click="clearCart()">Очистить корзину</span>
         </header>
         <div class="product-list">
-          <div v-for="product in products" :key="product.id">
-            <ProductBuyCard :product="product" />
+          <div v-for="product in allCart" :key="product.id">
+            <ProductBuyCard :product="product.product" :count="product.count" />
           </div>
           <InstallOption />
         </div>
@@ -22,10 +22,33 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import ProductBuyCard from "@/Share/ProductBuyCard/index";
 import InstallOption from "@/Share/InstallOption/index";
 import { products } from "@/content/mockData.json";
+import { mapGetters, mapActions, useStore } from "vuex";
+
+export default {
+  setup() {
+    const store = useStore();
+
+    store.commit("updateCart", [
+      { product: products[1], count: 1 },
+      { product: products[0], count: 2 },
+      { product: products[2], count: 1 },
+    ]);
+  },
+  methods: {
+    ...mapActions(["clearCart"]),
+  },
+  computed: {
+    ...mapGetters(["allCart"]),
+  },
+  components: {
+    ProductBuyCard,
+    InstallOption,
+  },
+};
 </script>
 
 <style scoped lang="scss">

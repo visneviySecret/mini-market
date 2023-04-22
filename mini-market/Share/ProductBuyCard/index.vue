@@ -8,19 +8,44 @@
       </p>
       <p class="content__article">Артикул: {{ product.article }}</p>
     </div>
-    <ControlButtons />
+    <ControlButtons
+      :count="count"
+      :handleIncrement="handleIncrement"
+      :handleDecrement="handleDecrement"
+    />
     <span class="cost">12 644 ₽</span>
-    <div class="cross-wrapper">
+    <div class="cross-wrapper" @click="removeProductById(product.id)">
       <CrossIcon />
     </div>
   </div>
 </template>
 
-<script setup>
+<script>
 import CrossIcon from "@/UI/CrossIcon/index";
 import ControlButtons from "@/Share/ControlButtons/index";
+import { mapActions } from "vuex";
 
-const { product } = defineProps(["product"]);
+export default {
+  props: ["product", "count"],
+  methods: {
+    ...mapActions([
+      "removeProductById",
+      "incrementCounter",
+      "decrementCounter",
+    ]),
+    handleIncrement() {
+      this.incrementCounter(this.product.id);
+    },
+    handleDecrement() {
+      this.decrementCounter(this.product.id);
+    },
+  },
+  computed() {},
+  components: {
+    CrossIcon,
+    ControlButtons,
+  },
+};
 </script>
 
 <style lang="scss" scoped>
