@@ -9,19 +9,8 @@
 <script setup>
 const route = useRouter();
 const mock_route = "/cart/item";
-// console.log(route.currentRoute._value.fullPath);
 
 const arr = mock_route.split("/");
-
-// const formattedArr = arrayFormatter(arr);
-
-// const arrayFormatter = (arr) => {
-//   return arr.reduce((acc, val) => {
-//     acc[val] === "cart" && "Корзина";
-//     return acc;
-//   }, {});
-// };
-console.log(arr);
 </script>
 
 <style lang="scss" scoped>

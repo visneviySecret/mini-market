@@ -1,11 +1,28 @@
 <template>
   <div>
-    <input type="checkbox" />
+    <input type="checkbox" v-model="isChecked" />
   </div>
 </template>
 
 <script>
-export default {};
+import { mapActions, mapGetters } from "vuex";
+
+export default {
+  computed: {
+    ...mapGetters(["cartStats"]),
+    isChecked: {
+      get() {
+        return this.cartStats.InstallOption;
+      },
+      set() {
+        this.toggleInstallOption();
+      },
+    },
+  },
+  methods: {
+    ...mapActions(["toggleInstallOption"]),
+  },
+};
 </script>
 
 <style lang="scss" scoped>

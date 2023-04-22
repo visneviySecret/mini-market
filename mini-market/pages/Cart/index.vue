@@ -4,7 +4,7 @@
       <div class="content">
         <header>
           <h1>Ваша корзина</h1>
-          <span class="cart-counter">4 товара</span>
+          <span class="cart-counter">{{ cartStats.count }} товара</span>
           <span class="clear-cart" @click="clearCart()">Очистить корзину</span>
         </header>
         <div class="product-list">
@@ -42,7 +42,7 @@ export default {
     ...mapActions(["clearCart"]),
   },
   computed: {
-    ...mapGetters(["allCart"]),
+    ...mapGetters(["allCart", "cartStats"]),
   },
   components: {
     ProductBuyCard,

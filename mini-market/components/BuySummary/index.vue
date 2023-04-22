@@ -2,20 +2,39 @@
   <div class="scope-wrapper">
     <h2>Итого</h2>
     <ul>
-      <li><span>Сумма заказа</span><span>50 576 ₽</span></li>
-      <li><span>Количество</span><span>4 шт</span></li>
-      <li><span>Установка</span><span>Нет</span></li>
+      <li>
+        <span>Сумма заказа</span><span>{{ cartStats.cost }} ₽</span>
+      </li>
+      <li>
+        <span>Количество</span><span>{{ cartStats.count }} шт</span>
+      </li>
+      <li>
+        <span>Установка</span
+        ><span>{{ cartStats.InstallOption ? "Да" : "Нет" }}</span>
+      </li>
     </ul>
     <div class="finale-cost">
       <h3>Стоимость товаров</h3>
-      <span class="cost">50 576 ₽</span>
+      <span class="cost">{{ cartStats.cost }} ₽</span>
     </div>
     <SummaryButtons />
   </div>
 </template>
 
-<script setup>
+<script>
 import SummaryButtons from "@/Share/SummaryButtons/index.vue";
+import { mapGetters } from "vuex";
+
+export default {
+  props: ["product", "count"],
+
+  computed: {
+    ...mapGetters(["cartStats"]),
+  },
+  components: {
+    SummaryButtons,
+  },
+};
 </script>
 
 <style lang="scss" scoped>

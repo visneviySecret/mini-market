@@ -4,11 +4,29 @@ const store = createStore({
   state() {
     return {
       products: [],
+      options: {
+        install: false,
+      },
     };
   },
   getters: {
     allCart(state) {
       return state.products;
+    },
+    cartStats(state) {
+      let count = 0;
+      let cost = 0;
+      const InstallOption = state.options.install;
+      state.products.forEach((item) => {
+        count += item.count;
+        cost += item.product.cost * item.count;
+      });
+
+      return {
+        count,
+        cost,
+        InstallOption,
+      };
     },
   },
   actions: {
@@ -24,6 +42,9 @@ const store = createStore({
     decrementCounter({ commit }, productId) {
       commit("decrementCounter", productId);
     },
+    toggleInstallOption({ commit }) {
+      commit("toggleInstallOption");
+    },
   },
   mutations: {
     updateCart(state, payload) {
@@ -36,6 +57,9 @@ const store = createStore({
     },
     clearCart(state) {
       state.products = [];
+    },
+    toggleInstallOption(state) {
+      state.options.install = !state.options.install;
     },
     incrementCounter(state, productId) {
       state.products = state.products.map((item) => {

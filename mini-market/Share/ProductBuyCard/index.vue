@@ -10,10 +10,11 @@
     </div>
     <ControlButtons
       :count="count"
+      :cost="product.cost"
       :handleIncrement="handleIncrement"
       :handleDecrement="handleDecrement"
     />
-    <span class="cost">12 644 ₽</span>
+    <span class="cost">{{ product.cost * count }} ₽</span>
     <div class="cross-wrapper" @click="removeProductById(product.id)">
       <CrossIcon />
     </div>

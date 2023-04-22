@@ -3,13 +3,21 @@
     <img src="~/assets/icons/cart.svg" style="width: 32px; height: 32px" />
     <div class="cart-stats">
       <span class="title">Ваша корзина</span>
-      <span class="products">3 товара</span>
-      <span class="cost">50 576 ₽</span>
+      <span class="products">{{ cartStats.count }} товара</span>
+      <span class="cost">{{ cartStats.cost }} ₽</span>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script>
+import { mapGetters } from "vuex";
+
+export default {
+  computed: {
+    ...mapGetters(["cartStats"]),
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 div {
