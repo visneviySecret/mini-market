@@ -1,9 +1,11 @@
 <template>
   <div class="wrapper">
-    <img src="~/assets/icons/cart.svg" style="width: 32px; height: 32px" />
+    <nuxt-link to="/cart">
+      <img src="~/assets/icons/cart.svg" style="width: 32px; height: 32px" />
+    </nuxt-link>
     <div class="cart-stats">
       <span class="title">Ваша корзина</span>
-      <span class="products">{{ cartStats.count }} товара</span>
+      <span class="products">{{ cartStats.count }} товар{{ ending }}</span>
       <span class="cost">{{ cartStats.cost }} ₽</span>
     </div>
   </div>
@@ -11,10 +13,14 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { getEnding } from "@/utils/getEnding";
 
 export default {
   computed: {
     ...mapGetters(["cartStats"]),
+    ending() {
+      return getEnding(this.cartStats.count);
+    },
   },
 };
 </script>

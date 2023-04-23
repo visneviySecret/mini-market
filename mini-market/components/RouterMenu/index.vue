@@ -1,16 +1,21 @@
 <template>
   <div>
     <nuxt-link to="/" class="home">Главная</nuxt-link>
-    <img src="~/assets/icons/navArrow.svg" />
-    <nuxt-link to="/cart">Корзина</nuxt-link>
+    <div v-if="routeName === '/cart'">
+      <img src="~/assets/icons/navArrow.svg" />
+      <nuxt-link to="/cart">Корзина</nuxt-link>
+    </div>
   </div>
 </template>
 
-<script setup>
-const route = useRouter();
-const mock_route = "/cart/item";
-
-const arr = mock_route.split("/");
+<script>
+export default {
+  computed: {
+    routeName() {
+      return this.$route.path;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -20,6 +25,8 @@ div {
 }
 a {
   text-decoration: none;
+}
+.router-link-exact-active {
   color: #797b86;
   &:hover {
     opacity: 0.7;

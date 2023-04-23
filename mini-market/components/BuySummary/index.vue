@@ -40,7 +40,7 @@ export default {
 <style lang="scss" scoped>
 .scope-wrapper {
   max-width: 365px;
-  height: 388px;
+  min-height: 388px;
   background: #f6f8fa;
   border-radius: 5px;
   padding: 35px 30px;

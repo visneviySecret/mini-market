@@ -1,9 +1,15 @@
 import { createStore } from "vuex";
+import { products } from "@/content/mockData.json";
 
+const initialStore = [
+  { product: products[1], count: 1 },
+  { product: products[0], count: 2 },
+  { product: products[2], count: 1 },
+];
 const store = createStore({
   state() {
     return {
-      products: [],
+      products: initialStore,
       options: {
         install: false,
       },
@@ -62,17 +68,13 @@ const store = createStore({
       state.options.install = !state.options.install;
     },
     incrementCounter(state, productId) {
-      state.products = state.products.map((item) => {
-        return item.product.id === productId
-          ? { ...item, count: (item.count += 1) }
-          : { ...item };
+      state.products.map((item) => {
+        if (item.product.id === productId) item.count += 1;
       });
     },
     decrementCounter(state, productId) {
-      state.products = state.products.map((item) => {
-        return item.product.id === productId && item.count > 0
-          ? { ...item, count: (item.count -= 1) }
-          : { ...item };
+      state.products.map((item) => {
+        if (item.product.id === productId && item.count > 0) item.count -= 1;
       });
     },
   },

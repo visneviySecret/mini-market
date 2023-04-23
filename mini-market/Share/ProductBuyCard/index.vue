@@ -41,7 +41,6 @@ export default {
       this.decrementCounter(this.product.id);
     },
   },
-  computed() {},
   components: {
     CrossIcon,
     ControlButtons,

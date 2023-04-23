@@ -4,14 +4,21 @@
       <div class="content">
         <header>
           <h1>Ваша корзина</h1>
-          <span class="cart-counter">{{ cartStats.count }} товара</span>
+          <span class="cart-counter"
+            >{{ cartStats.count }} товар{{ ending }}</span
+          >
           <span class="clear-cart" @click="clearCart()">Очистить корзину</span>
         </header>
         <div class="product-list">
-          <div v-for="product in allCart" :key="product.id">
-            <ProductBuyCard :product="product.product" :count="product.count" />
-          </div>
-          <InstallOption />
+          <TransitionGroup name="fade" tag="ul" class="container">
+            <li v-for="product in allCart" :key="product">
+              <ProductBuyCard
+                :product="product.product"
+                :count="product.count"
+              />
+            </li>
+            <InstallOption />
+          </TransitionGroup>
         </div>
       </div>
       <div class="aside">
@@ -25,24 +32,18 @@
 <script>
 import ProductBuyCard from "@/Share/ProductBuyCard/index";
 import InstallOption from "@/Share/InstallOption/index";
-import { products } from "@/content/mockData.json";
-import { mapGetters, mapActions, useStore } from "vuex";
+import { mapGetters, mapActions } from "vuex";
+import { getEnding } from "@/utils/getEnding";
 
 export default {
-  setup() {
-    const store = useStore();
-
-    store.commit("updateCart", [
-      { product: products[1], count: 1 },
-      { product: products[0], count: 2 },
-      { product: products[2], count: 1 },
-    ]);
-  },
   methods: {
     ...mapActions(["clearCart"]),
   },
   computed: {
     ...mapGetters(["allCart", "cartStats"]),
+    ending() {
+      return getEnding(this.cartStats.count);
+    },
   },
   components: {
     ProductBuyCard,
@@ -88,5 +89,23 @@ header {
   &:hover {
     opacity: 0.7;
   }
+}
+.fade-move,
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.5s ease;
+}
+
+/* 2. declare enter from and leave to state */
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: scale(0.3) translateY(-200px);
+}
+
+/* 3. ensure leaving items are taken out of layout flow so that moving
+      animations can be calculated correctly. */
+.fade-leave-active {
+  position: absolute;
 }
 </style>
