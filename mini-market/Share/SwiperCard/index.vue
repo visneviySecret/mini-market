@@ -1,18 +1,22 @@
 <template>
   <div class="wrapper">
     <img src="~/assets/images/img1.png" />
-    <span class="title">BXC</span>
-    <span class="sub-title"
-      >Вытяжное устройство для механической системы вентиляции</span
-    >
-    <span class="cost-range">6 848 ₽ – 56 584 ₽ </span
+    <span class="title">{{ card.model }}</span>
+    <span class="sub-title">{{ card.subTitle }}</span>
+    <span class="cost-range">{{ card.minCost }} ₽ – {{ card.maxCost }} ₽ </span
     ><span class="cost-range__euro">77.60 € – 643.86 €</span>
-    <Button>Подробнее</Button>
+    <Button :onClick="handleClick">Подробнее</Button>
   </div>
 </template>
 
 <script setup>
 import Button from "@/UI/Button/index";
+import Notifications from "@kyvg/vue3-notification";
+
+const { card } = defineProps(["card"]);
+const handleClick = () => {
+  alert("Подробная информация будет в будущем");
+};
 </script>
 
 <style lang="scss" scoped>
@@ -24,6 +28,7 @@ import Button from "@/UI/Button/index";
   background: #f6f8fa;
   border-radius: 5px;
   color: #1f2432;
+  margin-top: 100px;
 }
 img {
   margin-bottom: 5px;
@@ -39,6 +44,7 @@ img {
   font-size: 14px;
   line-height: 145%;
   margin-bottom: 60px;
+  min-height: 60px;
 }
 .cost-range {
   font-weight: 500;

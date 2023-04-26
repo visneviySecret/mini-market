@@ -75,7 +75,6 @@ li {
 }
 .cost {
   font-family: "Roboto";
-  font-style: normal;
   font-weight: 700;
   font-size: 26px;
   line-height: 130%;
