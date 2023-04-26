@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <nuxt-img :src="product.picture" :alt="product.title" />
+    <img :src="product.picture" :alt="product.title" />
     <div class="content">
       <h3 class="content__title">{{ product.title }}</h3>
       <p class="content__specs">

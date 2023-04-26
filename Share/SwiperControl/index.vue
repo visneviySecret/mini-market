@@ -2,7 +2,9 @@
   <div>
     <SwiperButton @click="swiper.slidePrev()" />
     <div class="counter">
-      <span class="counter__count">{{ Math.round((1 + 2) / 4) }}</span
+      <span class="counter__count">{{
+        Math.round((swiper.activeIndex + 2) / 4)
+      }}</span
       ><span class="counter__total-pages">/ {{ pages }}</span>
     </div>
     <SwiperButton @click="swiper.slideNext()" class="right" />

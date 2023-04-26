@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <img src="~/assets/images/img1.png" />
+    <img :src="card.picture" />
     <span class="title">{{ card.model }}</span>
     <span class="sub-title">{{ card.subTitle }}</span>
     <span class="cost-range">{{ card.minCost }} ₽ – {{ card.maxCost }} ₽ </span
@@ -15,7 +15,7 @@ import Notifications from "@kyvg/vue3-notification";
 
 const { card } = defineProps(["card"]);
 const handleClick = () => {
-  alert("Подробная информация будет в будущем");
+  alert("Подробная информация будет позже");
 };
 </script>
 
@@ -31,6 +31,7 @@ const handleClick = () => {
   margin-top: 100px;
 }
 img {
+  min-height: 200px;
   margin-bottom: 5px;
 }
 .title {
