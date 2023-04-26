@@ -6,7 +6,7 @@
     <div class="cart-stats">
       <span class="title">Ваша корзина</span>
       <span class="products">{{ cartStats.count }} товар{{ ending }}</span>
-      <span class="cost">{{ cartStats.cost }} ₽</span>
+      <span class="cost">{{ getFormatNumber(cartStats.cost) }} ₽</span>
     </div>
   </div>
 </template>
@@ -14,6 +14,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { getEnding } from "@/utils/getEnding";
+import { getFormatNumber } from "@/utils/getFormatNumber";
 
 export default {
   computed: {

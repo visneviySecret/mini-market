@@ -3,7 +3,8 @@
     <h2>Итого</h2>
     <ul>
       <li>
-        <span>Сумма заказа</span><span>{{ cartStats.cost }} ₽</span>
+        <span>Сумма заказа</span
+        ><span>{{ getFormatNumber(cartStats.cost) }} ₽</span>
       </li>
       <li>
         <span>Количество</span><span>{{ cartStats.count }} шт</span>
@@ -15,7 +16,7 @@
     </ul>
     <div class="finale-cost">
       <h3>Стоимость товаров</h3>
-      <span class="cost">{{ cartStats.cost }} ₽</span>
+      <span class="cost">{{ getFormatNumber(cartStats.cost) }} ₽</span>
     </div>
     <SummaryButtons />
   </div>
@@ -24,6 +25,7 @@
 <script>
 import SummaryButtons from "@/Share/SummaryButtons/index.vue";
 import { mapGetters } from "vuex";
+import { getFormatNumber } from "@/utils/getFormatNumber";
 
 export default {
   props: ["product", "count"],

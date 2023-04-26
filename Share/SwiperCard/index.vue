@@ -3,7 +3,9 @@
     <img :src="card.picture" />
     <span class="title">{{ card.model }}</span>
     <span class="sub-title">{{ card.subTitle }}</span>
-    <span class="cost-range">{{ card.minCost }} ₽ – {{ card.maxCost }} ₽ </span
+    <span class="cost-range"
+      >{{ getFormatNumber(card.minCost) }} ₽ –
+      {{ getFormatNumber(card.maxCost) }} ₽ </span
     ><span class="cost-range__euro">77.60 € – 643.86 €</span>
     <Button :onClick="handleClick">Подробнее</Button>
   </div>
@@ -12,7 +14,7 @@
 <script setup>
 import Button from "@/UI/Button/index";
 import Notifications from "@kyvg/vue3-notification";
-
+import { getFormatNumber } from "@/utils/getFormatNumber";
 const { card } = defineProps(["card"]);
 const handleClick = () => {
   alert("Подробная информация будет позже");

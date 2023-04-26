@@ -10,11 +10,11 @@
     </div>
     <ControlButtons
       :count="count"
-      :cost="product.cost"
+      :cost="getFormatNumber(product.cost)"
       :handleIncrement="handleIncrement"
       :handleDecrement="handleDecrement"
     />
-    <span class="cost">{{ product.cost * count }} ₽</span>
+    <span class="cost">{{ getFormatNumber(product.cost * count) }} ₽</span>
     <div class="cross-wrapper" @click="removeProductById(product.id)">
       <CrossIcon />
     </div>
@@ -25,6 +25,7 @@
 import CrossIcon from "@/UI/CrossIcon/index";
 import ControlButtons from "@/Share/ControlButtons/index";
 import { mapActions } from "vuex";
+import { getFormatNumber } from "@/utils/getFormatNumber";
 
 export default {
   props: ["product", "count"],
