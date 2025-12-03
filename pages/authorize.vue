@@ -103,7 +103,6 @@ const onSubmit = async () => {
       mode.value === "login"
         ? await login(email.value, password.value)
         : await signup(email.value, password.value);
-
     auth.value = response.tokens.refreshToken;
     navigateTo("/");
   } catch (err) {
