@@ -61,6 +61,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { login, signup } from "~/api/auth";
 
 definePageMeta({
   layout: false,
@@ -71,11 +72,13 @@ const email = ref("");
 const password = ref("");
 const passwordRepeat = ref("");
 const error = ref("");
+const loading = ref(false);
 
-const router = useRouter();
-const auth = useCookie<string | null>("auth_token");
+const auth = useCookie<string | undefined>(
+  import.meta.env.VITE_RESRESH_TOKEN as string
+);
 
-const onSubmit = () => {
+const onSubmit = async () => {
   error.value = "";
 
   if (!email.value || !password.value) {
@@ -94,8 +97,20 @@ const onSubmit = () => {
     }
   }
 
-  auth.value = "ok";
-  router.push("/");
+  try {
+    loading.value = true;
+    const response =
+      mode.value === "login"
+        ? await login(email.value, password.value)
+        : await signup(email.value, password.value);
+
+    auth.value = response.tokens.refreshToken;
+    navigateTo("/");
+  } catch (err) {
+    error.value = (err as Error).message;
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
 
@@ -200,5 +215,3 @@ const onSubmit = () => {
   transform: translateY(1px);
 }
 </style>
-
-
