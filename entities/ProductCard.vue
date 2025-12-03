@@ -16,10 +16,18 @@
           <span class="product-currency">₽</span>
         </div>
 
+        <ControlButtons
+          v-if="storedProduct && storedProduct.count > 0"
+          :count="storedProduct.count"
+          :cost="getFormatNumber(product.price)"
+          :handleIncrement="handleAddProductToCart"
+          :handleDecrement="handleRemoveProductFromCart"
+        />
         <button
+          v-else
           type="button"
           class="product-button"
-          @click="$emit('add-to-cart', product)"
+          @click="handleAddProductToCart()"
         >
           В корзину
         </button>
@@ -29,13 +37,30 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
+import { useStore } from "vuex";
+import { getFormatNumber } from "@/utils/getFormatNumber";
+import ControlButtons from "~/Share/ControlButtons/index.vue";
+
 const props = defineProps<{
   product: Product;
 }>();
 
-const emits = defineEmits<{
-  (e: "add-to-cart", product: Product): void;
-}>();
+const store = useStore();
+
+const storedProduct = computed(() => {
+  return store.state.products.find(
+    (item: { product: Product }) => item.product.id === props.product.id
+  );
+});
+
+const handleAddProductToCart = () => {
+  store.commit("addProductToCart", props.product);
+};
+
+const handleRemoveProductFromCart = () => {
+  store.commit("removeProductFromCart", props.product.id);
+};
 
 const formattedPrice = computed(() =>
   props.product.price.toLocaleString("ru-RU")

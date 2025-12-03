@@ -1,11 +1,6 @@
 import { createStore } from "vuex";
-import { products } from "@/content/mockData.json";
 
-const initialStore = [
-  { product: products[1], count: 1 },
-  { product: products[0], count: 2 },
-  { product: products[2], count: 1 },
-];
+const initialStore = [];
 const store = createStore({
   state() {
     return {
@@ -25,7 +20,7 @@ const store = createStore({
       const InstallOption = state.options.install;
       state.products.forEach((item) => {
         count += item.count;
-        cost += item.product.cost * item.count;
+        cost += item.product.price * item.count;
       });
 
       return {
@@ -46,13 +41,35 @@ const store = createStore({
       commit("incrementCounter", productId);
     },
     decrementCounter({ commit }, productId) {
-      commit("decrementCounter", productId);
+      commit("removeProductFromCart", productId);
     },
     toggleInstallOption({ commit }) {
       commit("toggleInstallOption");
     },
   },
   mutations: {
+    addProductToCart(state, product) {
+      const existingProduct = state.products.find(
+        (item) => item.product.id === product.id
+      );
+      if (existingProduct) {
+        existingProduct.count += 1;
+      } else {
+        state.products.push({ product, count: 1 });
+      }
+    },
+    removeProductFromCart(state, productId) {
+      const existingProduct = state.products.find(
+        (item) => item.product.id === productId
+      );
+      if (existingProduct.count > 0) {
+        existingProduct.count -= 1;
+      } else {
+        state.products = state.products.filter(
+          (item) => item.product.id !== productId
+        );
+      }
+    },
     updateCart(state, payload) {
       state.products = payload;
     },

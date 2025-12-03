@@ -11,13 +11,13 @@
         </header>
         <div class="product-list">
           <TransitionGroup name="fade" tag="ul" class="container">
-            <li v-for="product in allCart" :key="product">
+            <li v-for="product in allCart" :key="product.product.id">
               <ProductBuyCard
                 :product="product.product"
                 :count="product.count"
               />
             </li>
-            <InstallOption />
+            <InstallOption :key="'install-option'" />
           </TransitionGroup>
         </div>
       </div>

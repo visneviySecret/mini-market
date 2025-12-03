@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <img :src="product.picture" :alt="product.title" />
+    <img :src="product.photo" :alt="product.title" />
     <div class="content">
       <h3 class="content__title">{{ product.title }}</h3>
       <p class="content__specs">
@@ -10,11 +10,11 @@
     </div>
     <ControlButtons
       :count="count"
-      :cost="getFormatNumber(product.cost)"
+      :cost="getFormatNumber(product.price)"
       :handleIncrement="handleIncrement"
       :handleDecrement="handleDecrement"
     />
-    <span class="cost">{{ getFormatNumber(product.cost * count) }} ₽</span>
+    <span class="cost">{{ getFormatNumber(product.price * count) }} ₽</span>
     <div class="cross-wrapper" @click="removeProductById(product.id)">
       <CrossIcon />
     </div>

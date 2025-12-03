@@ -21,7 +21,7 @@
 import SwiperControl from "@/Share/SwiperControl/index";
 import SwiperCard from "@/Share/SwiperCard/index";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { products } from "@/content/mockData";
+// import { products } from "@/content/mockData";
 import "swiper/css";
 import "swiper/css/pagination";
 export default {
@@ -33,13 +33,13 @@ export default {
   },
   setup() {
     let mockCards = [];
-    for (let i = 0; i <= 5; i++) {
-      mockCards = mockCards.concat(
-        products.map((product) => {
-          return { ...product, id: Math.random() * Date.now() };
-        })
-      );
-    }
+    // for (let i = 0; i <= 5; i++) {
+    //   mockCards = mockCards.concat(
+    //     products.map((product) => {
+    //       return { ...product, id: Math.random() * Date.now() };
+    //     })
+    //   );
+    // }
     return {
       mockCards,
     };

@@ -15,7 +15,6 @@
           v-for="product in products"
           :key="product.id"
           :product="product"
-          @add-to-cart="onAddToCart"
         />
       </div>
     </div>
@@ -28,23 +27,17 @@ import ProductCard from "~/entities/ProductCard.vue";
 
 const products = ref<Product[]>([]);
 const error = ref<string | undefined>(undefined);
-const loading = ref<boolean>(false);
+const loading = ref<boolean>(true);
 
 onMounted(async () => {
   try {
-    loading.value = true;
     products.value = await getProducts();
-    console.log(products.value);
   } catch (err) {
     error.value = (err as Error).message ?? "Ошибка получения продуктов";
   } finally {
     loading.value = false;
   }
 });
-
-const onAddToCart = (product: Product) => {
-  console.log(product);
-};
 </script>
 
 <style scoped lang="scss">
