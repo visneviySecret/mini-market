@@ -5,6 +5,10 @@
       <img src="~/assets/icons/navArrow.svg" />
       <nuxt-link to="/cart">Корзина</nuxt-link>
     </div>
+    <div v-if="routeName === '/settings'">
+      <img src="~/assets/icons/navArrow.svg" />
+      <nuxt-link to="/settings">Настройки</nuxt-link>
+    </div>
   </div>
 </template>
 

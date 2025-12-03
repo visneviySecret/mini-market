@@ -1,33 +1,13 @@
+import apiClient from "~/utils/axios";
+
 async function signup(email: string, password: string) {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/users/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
-  if (!response.ok) {
-    const data = await response.json().catch(() => ({}));
-    const message = (data && data.message) || "Ошибка регистрации";
-    throw new Error(message);
-  }
-  return response.json();
+  const response = await apiClient.post("/users/signup", { email, password });
+  return response.data;
 }
 
 async function login(email: string, password: string) {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
-  if (!response.ok) {
-    const data = await response.json().catch(() => ({}));
-    const message = (data && data.message) || "Ошибка авторизации";
-    throw new Error(message);
-  }
-  return response.json();
+  const response = await apiClient.post("/users/login", { email, password });
+  return response.data;
 }
 
 export { signup, login };

@@ -1,6 +1,6 @@
 <template>
   <div class="leave-button">
-    <button @click="handleLeave">{{ "<- " }}Выйти из аккаунта</button>
+    <button @click="handleLeave">{{ "< " }}Выйти из аккаунта</button>
   </div>
 </template>
 

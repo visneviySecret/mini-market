@@ -49,7 +49,7 @@ const props = defineProps<{
 const store = useStore();
 
 const storedProduct = computed(() => {
-  return store.state.products.find(
+  return store.state.cart.products.find(
     (item: { product: Product }) => item.product.id === props.product.id
   );
 });
