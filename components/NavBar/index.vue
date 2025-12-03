@@ -1,5 +1,6 @@
 <template>
   <div>
+    <LogoutButton />
     <CartStatus />
   </div>
 </template>
