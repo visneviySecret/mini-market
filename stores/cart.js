@@ -1,4 +1,4 @@
-import { createOrder, updateOrder } from "~/api/order";
+import { createOrder, deleteOrder, updateOrder } from "~/api/order";
 
 const initialStore = [];
 
@@ -120,7 +120,7 @@ export default {
       if (existingProduct) {
         existingProduct.count += 1;
       } else {
-        state.products.push({ product, count: 1 });
+        state.products.push({ product, count: product.quantity });
       }
     },
     removeProductFromCart(state, productId) {
@@ -143,8 +143,9 @@ export default {
         (item) => item.product.id !== productId
       );
     },
-    clearCart(state) {
+    async clearCart(state) {
       state.products = [];
+      await deleteOrder();
     },
     toggleInstallOption(state) {
       state.options.install = !state.options.install;

@@ -12,6 +12,7 @@
 
 <script setup>
 import { getUserMe } from "~/api/user";
+import { getMyOrder } from "~/api/order";
 import { useStore } from "vuex";
 
 const store = useStore();
@@ -22,6 +23,11 @@ onMounted(async () => {
     try {
       const userData = await getUserMe();
       store.dispatch("setUser", userData);
+
+      const userOrder = await getMyOrder();
+      userOrder.items.forEach((item) => {
+        store.commit("addProductToCart", item);
+      });
     } catch (error) {
       console.error("Ошибка загрузки пользователя:", error);
     }
