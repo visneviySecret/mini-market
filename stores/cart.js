@@ -1,3 +1,5 @@
+import { createOrder, updateOrder } from "~/api/order";
+
 const initialStore = [];
 
 export default {
@@ -8,6 +10,9 @@ export default {
       options: {
         install: false,
       },
+      orderId: null,
+      orderDebounceTimer: null,
+      emptyCartTimer: null,
     };
   },
   getters: {
@@ -29,8 +34,68 @@ export default {
         InstallOption,
       };
     },
+    isCartEmpty(state) {
+      return state.products.length === 0;
+    },
   },
   actions: {
+    addProductToCart({ commit, dispatch }, product) {
+      commit("addProductToCart", product);
+      dispatch("syncOrderWithServer");
+      dispatch("cancelOrderDeletion");
+    },
+    async syncOrderWithServer({ state, commit, dispatch }) {
+      if (state.orderDebounceTimer) {
+        clearTimeout(state.orderDebounceTimer);
+      }
+
+      state.orderDebounceTimer = setTimeout(async () => {
+        try {
+          const items = state.products.map((item) => ({
+            product_id: item.product.id,
+            count: item.count,
+            price: item.product.price,
+          }));
+
+          if (state.orderId) {
+            await updateOrder(state.orderId, { items });
+          } else {
+            const order = await createOrder({ items });
+            commit("setOrderId", order.id);
+          }
+
+          if (state.products.length === 0 && state.orderId) {
+            dispatch("scheduleOrderDeletion");
+          } else {
+            dispatch("cancelOrderDeletion");
+          }
+        } catch (error) {
+          console.error("Ошибка синхронизации заказа:", error);
+        }
+      }, 1000);
+    },
+    scheduleOrderDeletion({ state, commit }) {
+      if (state.emptyCartTimer) {
+        clearTimeout(state.emptyCartTimer);
+      }
+
+      state.emptyCartTimer = setTimeout(async () => {
+        if (state.orderId && state.products.length === 0) {
+          try {
+            await deleteOrder(state.orderId);
+            commit("setOrderId", null);
+          } catch (error) {
+            console.error("Ошибка удаления заказа:", error);
+          }
+        }
+      }, 10000);
+    },
+    cancelOrderDeletion({ state }) {
+      if (state.emptyCartTimer) {
+        clearTimeout(state.emptyCartTimer);
+        state.emptyCartTimer = null;
+      }
+    },
     removeProductById({ commit }, productId) {
       commit("removeProductById", productId);
     },
@@ -94,6 +159,8 @@ export default {
         if (item.product.id === productId && item.count > 0) item.count -= 1;
       });
     },
+    setOrderId(state, orderId) {
+      state.orderId = orderId;
+    },
   },
 };
-

@@ -55,7 +55,7 @@ const storedProduct = computed(() => {
 });
 
 const handleAddProductToCart = () => {
-  store.commit("addProductToCart", props.product);
+  store.dispatch("addProductToCart", props.product);
 };
 
 const handleRemoveProductFromCart = () => {

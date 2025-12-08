@@ -10,7 +10,24 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { getUserMe } from "~/api/user";
+import { useStore } from "vuex";
+
+const store = useStore();
+const auth = useCookie(import.meta.env.VITE_RESRESH_TOKEN);
+
+onMounted(async () => {
+  if (auth.value && !store.getters.user?.id) {
+    try {
+      const userData = await getUserMe();
+      store.dispatch("setUser", userData);
+    } catch (error) {
+      console.error("Ошибка загрузки пользователя:", error);
+    }
+  }
+});
+</script>
 
 <style lang="scss" scoped>
 .container {
