@@ -4,8 +4,7 @@
     <button type="button" class="add-button" @click="handleAddAddress">
       Добавить адрес
     </button>
-    <div v-if="loading" class="loading-state">Loading...</div>
-    <div v-else-if="addresses.length === 0" class="empty-state">
+    <div v-if="addresses.length === 0" class="empty-state">
       <p>У вас пока нет сохранённых адресов</p>
     </div>
     <div v-else class="addresses-list">
@@ -50,14 +49,12 @@
 </template>
 
 <script setup lang="ts">
-import { getUserMe } from "~/api/user";
 import { deleteAddress } from "~/api/address";
 import UserSettingsModal from "~/components/UserSettingsModal/index.vue";
 import { useStore } from "vuex";
 
 const store = useStore();
 const isModalOpen = ref(false);
-const loading = ref(true);
 const editingAddress = ref<{
   id: number;
   city: string;
@@ -120,17 +117,6 @@ const handleRemoveAddress = async (addressId: number) => {
     console.error("Ошибка удаления адреса:", error);
   }
 };
-
-onMounted(async () => {
-  try {
-    const userData = await getUserMe();
-    store.dispatch("setUser", userData);
-  } catch (error) {
-    console.error("Ошибка загрузки пользователя:", error);
-  } finally {
-    loading.value = false;
-  }
-});
 </script>
 
 <style scoped lang="scss">
