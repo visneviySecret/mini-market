@@ -9,10 +9,6 @@
       <li>
         <span>Количество</span><span>{{ cartStats.count }} шт</span>
       </li>
-      <li>
-        <span>Установка</span
-        ><span>{{ cartStats.InstallOption ? "Да" : "Нет" }}</span>
-      </li>
     </ul>
     <div class="finale-cost">
       <h3>Стоимость товаров</h3>

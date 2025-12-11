@@ -17,7 +17,6 @@
                 :count="product.count"
               />
             </li>
-            <InstallOption :key="'install-option'" />
           </TransitionGroup>
         </div>
       </div>
@@ -31,7 +30,6 @@
 
 <script>
 import ProductBuyCard from "@/Share/ProductBuyCard/index";
-import InstallOption from "@/Share/InstallOption/index";
 import { mapGetters, mapActions } from "vuex";
 import { getEnding } from "@/utils/getEnding";
 
@@ -47,7 +45,6 @@ export default {
   },
   components: {
     ProductBuyCard,
-    InstallOption,
   },
 };
 </script>

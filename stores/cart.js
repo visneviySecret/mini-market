@@ -7,9 +7,6 @@ export default {
   state() {
     return {
       products: initialStore,
-      options: {
-        install: false,
-      },
       orderId: null,
       orderDebounceTimer: null,
       emptyCartTimer: null,
@@ -22,7 +19,6 @@ export default {
     cartStats(state) {
       let count = 0;
       let cost = 0;
-      const InstallOption = state.options.install;
       state.products.forEach((item) => {
         count += item.count;
         cost += item.product.price * item.count;
@@ -31,7 +27,6 @@ export default {
       return {
         count,
         cost,
-        InstallOption,
       };
     },
     isCartEmpty(state) {
@@ -108,9 +103,6 @@ export default {
     decrementCounter({ commit }, productId) {
       commit("removeProductFromCart", productId);
     },
-    toggleInstallOption({ commit }) {
-      commit("toggleInstallOption");
-    },
   },
   mutations: {
     addProductToCart(state, product) {
@@ -146,9 +138,6 @@ export default {
     async clearCart(state) {
       state.products = [];
       await deleteOrder();
-    },
-    toggleInstallOption(state) {
-      state.options.install = !state.options.install;
     },
     incrementCounter(state, productId) {
       state.products.forEach((item) => {
