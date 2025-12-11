@@ -1,8 +1,10 @@
 <template>
   <div class="wrapper">
-    <img :src="product.photo" :alt="product.title" />
+    <img :src="product.photo || product.product_photo" :alt="product.title" />
     <div class="content">
-      <h3 class="content__title">{{ product.title }}</h3>
+      <h3 class="content__title">
+        {{ product.product_name || product.name }}
+      </h3>
       <p class="content__specs">
         {{ product.specs }}
       </p>
@@ -14,7 +16,9 @@
       :handleIncrement="handleIncrement"
       :handleDecrement="handleDecrement"
     />
-    <span class="cost">{{ getFormatNumber(product.price * count) }} ₽</span>
+    <span class="cost"
+      >{{ getFormatNumber(product.price * count || product.quantity) }} ₽</span
+    >
     <div class="cross-wrapper" @click="removeProductById(product.id)">
       <CrossIcon />
     </div>
