@@ -62,6 +62,7 @@ export default {
 img {
   width: 100px;
   height: 100px;
+  object-fit: cover;
 }
 .content__specs {
   max-width: 282px;

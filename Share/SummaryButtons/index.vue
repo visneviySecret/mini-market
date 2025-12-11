@@ -1,7 +1,6 @@
 <template>
   <div>
     <Button :onClick="makeOrder">Оформить заказ</Button>
-    <Button :onClick="oneClickOrder" theme="outlined">Купить в 1 клик</Button>
   </div>
 </template>
 
@@ -17,9 +16,6 @@ export default {
   },
   methods: {
     makeOrder() {
-      alert("Оформление ещё не работает, попробуйте купить в один клик");
-    },
-    oneClickOrder() {
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
