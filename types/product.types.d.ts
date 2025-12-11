@@ -5,3 +5,7 @@ interface Product {
   price: number;
   photo: string;
 }
+
+interface CreateProductPayload extends Omit<Product, "id" | "photo"> {
+  photo: Blob;
+}

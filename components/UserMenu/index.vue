@@ -8,6 +8,14 @@
       <button type="button" class="user-item" @click.stop="openSettings">
         Настройки
       </button>
+      <button
+        v-if="isAdmin"
+        type="button"
+        class="user-item"
+        @click.stop="createProduct"
+      >
+        Добавить товар
+      </button>
       <LogoutButton class="user-item user-item--logout" />
     </div>
   </div>
@@ -15,17 +23,15 @@
 
 <script setup lang="ts">
 import LogoutButton from "~/components/LogoutButton/index.vue";
+import { useStore } from "vuex";
 
+const store = useStore();
 const isOpen = ref(false);
+const isAdmin = computed(() => store.getters.user?.role === "admin");
 const dropdownRef = ref<HTMLDivElement | null>(null);
 
 const toggle = () => {
   isOpen.value = !isOpen.value;
-};
-
-const openSettings = () => {
-  isOpen.value = false;
-  navigateTo("/settings");
 };
 
 const handleClickOutside = (e: Event) => {
@@ -34,6 +40,16 @@ const handleClickOutside = (e: Event) => {
   if (!dropdownRef.value.contains(e.target)) {
     isOpen.value = false;
   }
+};
+
+const openSettings = () => {
+  isOpen.value = false;
+  navigateTo("/settings");
+};
+
+const createProduct = () => {
+  isOpen.value = false;
+  navigateTo("/create-product");
 };
 
 onMounted(() => {

@@ -5,4 +5,9 @@ async function getProducts(): Promise<Product[]> {
   return response.data;
 }
 
-export { getProducts };
+async function createProduct(payload: CreateProductPayload) {
+  const response = await apiClient.post("/products", payload);
+  return response.data;
+}
+
+export { getProducts, createProduct };

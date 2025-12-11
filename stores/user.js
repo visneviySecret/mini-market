@@ -3,6 +3,7 @@ export default {
   state() {
     return {
       id: null,
+      role: null,
       email: null,
       addresses: [],
     };
@@ -11,6 +12,7 @@ export default {
     user(state) {
       return {
         id: state.id,
+        role: state.role,
         email: state.email,
         addresses: state.addresses,
       };
@@ -43,6 +45,7 @@ export default {
     setUser(state, userData) {
       state.id = userData.id;
       state.email = userData.email;
+      state.role = userData.role;
       if (userData.addresses) {
         state.addresses = userData.addresses;
       }
