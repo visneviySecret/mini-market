@@ -10,4 +10,9 @@ async function login(email: string, password: string) {
   return response.data;
 }
 
-export { signup, login };
+async function refreshToken() {
+  const response = await apiClient.post("/users/refresh-token");
+  return response.data;
+}
+
+export { signup, login, refreshToken };

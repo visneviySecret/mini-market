@@ -1,4 +1,5 @@
 import axios from "axios";
+import { refreshToken } from "~/api/auth";
 
 const apiClient = axios.create({
   baseURL: (import.meta.env.VITE_API_URL as string) || "http://localhost:3000",
@@ -21,7 +22,7 @@ apiClient.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
+  async (error) => {
     if (error.response) {
       const message =
         error.response.data?.message ||
@@ -32,8 +33,14 @@ apiClient.interceptors.response.use(
         const auth = useCookie<string | undefined>(
           import.meta.env.VITE_RESRESH_TOKEN as string
         );
-        auth.value = undefined;
-        return navigateTo("/authorize");
+        try {
+          const response = await refreshToken();
+          auth.value = response.tokens.refreshToken;
+          return apiClient.request(error.config);
+        } catch (err) {
+          auth.value = undefined;
+          return navigateTo("/authorize");
+        }
       }
       return Promise.reject(new Error(message));
     }
