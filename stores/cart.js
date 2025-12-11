@@ -120,7 +120,7 @@ export default {
       if (existingProduct) {
         existingProduct.count += 1;
       } else {
-        state.products.push({ product, count: product.quantity });
+        state.products.push({ product, count: 1 });
       }
     },
     removeProductFromCart(state, productId) {
