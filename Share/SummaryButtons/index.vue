@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Button :onClick="makeOrder">Оформить заказ</Button>
+    <Button :onClick="makeOrder" :disabled="isCartEmpty">Оформить заказ</Button>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ export default {
     Button,
   },
   computed: {
-    ...mapGetters(["allCart"]),
+    ...mapGetters(["allCart", "isCartEmpty"]),
   },
   methods: {
     makeOrder() {

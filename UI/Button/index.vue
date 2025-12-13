@@ -1,11 +1,17 @@
 <template>
   <div>
-    <button :class="[themeStyle]" @click="onClick"><slot /></button>
+    <button :class="[themeStyle]" :disabled="disabled" @click="onClick">
+      <slot />
+    </button>
   </div>
 </template>
 
 <script setup>
-const { theme, onClick } = defineProps(["theme", "onClick"]);
+const { theme, onClick, disabled } = defineProps([
+  "theme",
+  "onClick",
+  "disabled",
+]);
 const themeStyle = theme || "primal";
 </script>
 
@@ -18,6 +24,11 @@ button {
   font-weight: 500;
   font-size: 16px;
   line-height: 145%;
+  cursor: pointer;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 .primal {
   background: #0069b4;
