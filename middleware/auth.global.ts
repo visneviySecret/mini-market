@@ -9,8 +9,4 @@ export default defineNuxtRouteMiddleware((to) => {
     }
     return;
   }
-
-  if (!auth.value) {
-    return navigateTo("/authorize");
-  }
 });
