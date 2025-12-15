@@ -1,4 +1,5 @@
 import { createOrder, deleteOrder, updateOrder } from "~/api/order";
+import { saveCartToLocalStorage } from "~/utils/cartLocalStorage";
 
 const initialStore = [];
 
@@ -10,6 +11,7 @@ export default {
       orderId: null,
       orderDebounceTimer: null,
       emptyCartTimer: null,
+      cartStatus: "loading",
     };
   },
   getters: {
@@ -29,6 +31,9 @@ export default {
         cost,
       };
     },
+    cartStatus(state) {
+      return state.cartStatus;
+    },
     isCartEmpty(state) {
       return state.products.length === 0;
     },
@@ -39,13 +44,24 @@ export default {
       dispatch("syncOrderWithServer");
       dispatch("cancelOrderDeletion");
     },
-    async syncOrderWithServer({ state, commit, dispatch }) {
+    removeProductFromCart({ commit, dispatch }, productId) {
+      commit("removeProductFromCart", productId);
+      dispatch("syncOrderWithServer");
+    },
+    async syncOrderWithServer({ state, commit, dispatch, rootGetters }) {
       if (state.orderDebounceTimer) {
         clearTimeout(state.orderDebounceTimer);
       }
 
       state.orderDebounceTimer = setTimeout(async () => {
         try {
+          const user = rootGetters.user;
+
+          if (!user || !user.id) {
+            saveCartToLocalStorage(state.products);
+            return;
+          }
+
           const items = state.products.map((item) => ({
             product_id: item.product.id,
             count: item.count,
@@ -151,6 +167,9 @@ export default {
     },
     setOrderId(state, orderId) {
       state.orderId = orderId;
+    },
+    setCartStatus(state, status) {
+      state.cartStatus = status;
     },
   },
 };

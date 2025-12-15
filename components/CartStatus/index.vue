@@ -5,8 +5,12 @@
     </nuxt-link>
     <div class="cart-stats">
       <span class="title">Ваша корзина</span>
-      <span class="products">{{ cartStats.count }} товар{{ ending }}</span>
-      <span class="cost">{{ getFormatNumber(cartStats.cost) }} ₽</span>
+      <div class="cart-stats-numbers">
+        <template v-if="isLoaded">
+          <span class="products">{{ cartStats.count }} товар{{ ending }}</span>
+          <span class="cost">{{ getFormatNumber(cartStats.cost) }} ₽</span>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -15,10 +19,12 @@
 import { mapGetters } from "vuex";
 import { getEnding } from "@/utils/getEnding";
 import { getFormatNumber } from "@/utils/getFormatNumber";
-
 export default {
   computed: {
-    ...mapGetters(["cartStats"]),
+    ...mapGetters(["cartStats", "cartStatus"]),
+    isLoaded() {
+      return this.cartStatus === "loaded";
+    },
     ending() {
       return getEnding(this.cartStats.count);
     },
@@ -54,8 +60,12 @@ div {
     margin-top: -1px;
   }
 
-  .cart-stats {
+  .cart-stats,
+  .cart-stats > div {
     flex-direction: column;
+  }
+  .cart-stats-numbers {
+    min-height: 32px;
   }
 }
 </style>

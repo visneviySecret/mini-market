@@ -14,6 +14,7 @@
 import { getUserMe } from "~/api/user";
 import { getMyOrder } from "~/api/order";
 import { useStore } from "vuex";
+import { loadCartFromLocalStorage } from "~/utils/cartLocalStorage";
 
 const store = useStore();
 const auth = useCookie(import.meta.env.VITE_RESRESH_TOKEN);
@@ -30,6 +31,14 @@ onMounted(async () => {
       });
     } catch (error) {
       console.error("Ошибка загрузки пользователя:", error);
+    } finally {
+      store.commit("setCartStatus", "loaded");
+    }
+  } else if (!auth.value) {
+    const savedCart = loadCartFromLocalStorage();
+    if (savedCart && savedCart.length > 0) {
+      store.commit("updateCart", savedCart);
+      store.commit("setCartStatus", "loaded");
     }
   }
 });

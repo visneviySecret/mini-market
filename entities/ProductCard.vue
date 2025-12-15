@@ -6,6 +6,7 @@
 
     <div class="product-body">
       <h3 class="product-title">{{ product.name }}</h3>
+
       <p class="product-description">
         {{ product.description }}
       </p>
@@ -13,23 +14,17 @@
       <div class="product-footer">
         <div class="product-price-block">
           <span class="product-price">{{ formattedPrice }}</span>
+
           <span class="product-currency">₽</span>
         </div>
 
-        <ControlButtons
-          v-if="storedProduct && storedProduct.count > 0"
-          :count="storedProduct.count"
-          :cost="getFormatNumber(product.price)"
-          :handleIncrement="handleAddProductToCart"
-          :handleDecrement="handleRemoveProductFromCart"
-        />
         <button
-          v-else
           type="button"
           class="product-button"
+          :class="{ 'product-button--in-cart': isInCart }"
           @click="handleAddProductToCart()"
         >
-          В корзину
+          {{ isInCart ? "В корзине" : "В корзину" }}
         </button>
       </div>
     </div>
@@ -38,9 +33,8 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+
 import { useStore } from "vuex";
-import { getFormatNumber } from "@/utils/getFormatNumber";
-import ControlButtons from "~/Share/ControlButtons/index.vue";
 
 const props = defineProps<{
   product: Product;
@@ -54,12 +48,16 @@ const storedProduct = computed(() => {
   );
 });
 
-const handleAddProductToCart = () => {
-  store.dispatch("addProductToCart", props.product);
-};
+const isInCart = computed(
+  () => !!storedProduct.value && storedProduct.value.count > 0
+);
 
-const handleRemoveProductFromCart = () => {
-  store.commit("removeProductFromCart", props.product.id);
+const handleAddProductToCart = () => {
+  if (!isInCart.value) {
+    store.dispatch("addProductToCart", props.product);
+  } else {
+    store.dispatch("removeProductFromCart", props.product.id);
+  }
 };
 
 const formattedPrice = computed(() =>
@@ -148,6 +146,12 @@ const formattedPrice = computed(() =>
   color: #6b7280;
 }
 
+.product-in-cart-label {
+  margin-left: 8px;
+  font-size: 12px;
+  color: #16a34a;
+}
+
 .product-button {
   padding: 8px 14px;
   border-radius: 999px;
@@ -162,8 +166,13 @@ const formattedPrice = computed(() =>
   box-shadow: 0 4px 9px rgba(37, 99, 235, 0.35);
 }
 
+.product-button--in-cart {
+  background-color: #16a34a;
+  box-shadow: none;
+}
+
 .product-button:hover {
-  background-color: #1d4ed8;
+  opacity: 0.7;
 }
 
 .product-button:active {
