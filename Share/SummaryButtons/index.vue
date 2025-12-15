@@ -16,22 +16,7 @@ export default {
   },
   methods: {
     makeOrder() {
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(this.allCart),
-      };
-      try {
-        fetch("https://testapi.jasonwatmore.com/products", requestOptions)
-          .then((response) => response.json())
-          .then((data) => (product.value = data));
-      } catch {
-        throw new Error("Api ещё не работает");
-      } finally {
-        alert(
-          "Ваша корзина была отправлена на тестовый сервер. Спасибо за заказ!"
-        );
-      }
+      this.$router.push("/payment");
     },
   },
 };
