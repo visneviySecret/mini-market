@@ -5,42 +5,40 @@
     @dragover.prevent="isDragActive = true"
     @dragleave.prevent="isDragActive = false"
     @drop.prevent="handleDrop"
-    @click="fileInput?.click()"
   >
     <input
       ref="fileInput"
       type="file"
-      accept="image/*"
+      :accept="accept"
       class="dropzone__input"
       @change="handleFileChange"
       :multiple="multiple"
     />
-    <p v-if="!props.previews.length">{{ props.previewText }}</p>
-    <div v-else class="dropzone__preview-list">
-      <div
-        v-for="(item, index) in props.previews"
-        :key="index"
-        class="dropzone__preview-item"
-      >
-        <img :src="item" alt="preview" class="dropzone__preview-img" />
-        <button
-          type="button"
-          class="dropzone__clear"
-          @click.stop="removePreview(index)"
-        >
-          Убрать
-        </button>
-      </div>
-    </div>
+    <slot v-if="!previews.length" name="placeholder">
+      <p>{{ placeholderText }}</p>
+    </slot>
+    <slot
+      v-else
+      name="preview"
+      :previews="previews"
+      :removePreview="removePreview"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  previews: string[];
-  previewText?: string;
-  multiple?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    previews: string[];
+    placeholderText?: string;
+    multiple?: boolean;
+    accept: string;
+  }>(),
+  {
+    placeholderText: "Перетащите изображения или нажмите для выбора",
+    multiple: false,
+  }
+);
 
 const emit = defineEmits<{
   (e: "update:previews", value: string[]): void;
@@ -57,12 +55,26 @@ const readFileAsDataUrl = (file: File) =>
     reader.readAsDataURL(file);
   });
 
+const isFileAccepted = (file: File): boolean => {
+  const acceptTypes = props.accept.split(",").map((type) => type.trim());
+  return acceptTypes.some((acceptType) => {
+    if (acceptType.startsWith(".")) {
+      return file.name.toLowerCase().endsWith(acceptType.toLowerCase());
+    }
+    if (acceptType.endsWith("/*")) {
+      const mainType = acceptType.split("/")[0];
+      return file.type.startsWith(mainType + "/");
+    }
+    return file.type === acceptType;
+  });
+};
+
 const addFiles = async (files: File[]) => {
-  const imageFiles = files.filter((file) => file.type.startsWith("image/"));
-  if (!imageFiles.length) return;
+  const acceptedFiles = files.filter((file) => isFileAccepted(file));
+  if (!acceptedFiles.length) return;
 
   const urls = await Promise.all(
-    imageFiles.map((file) => readFileAsDataUrl(file))
+    acceptedFiles.map((file) => readFileAsDataUrl(file))
   );
 
   if (!props.multiple) {
@@ -120,38 +132,5 @@ const removePreview = (index: number) => {
 }
 .dropzone__input {
   display: none;
-}
-.dropzone__preview-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-}
-.dropzone__preview-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-.dropzone__preview-img {
-  max-width: 180px;
-  max-height: 120px;
-  border-radius: 10px;
-  object-fit: cover;
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
-}
-.dropzone__clear {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
-  color: #334155;
-  font-size: 13px;
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-.dropzone__clear:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
 }
 </style>

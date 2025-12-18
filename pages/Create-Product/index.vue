@@ -6,10 +6,14 @@
         <span>Название</span>
         <input v-model="name" type="text" required />
       </label>
-      <DropZone
-        v-model:preview="photoPreview"
-        :previewText="'Перетащите изображение или кликните для выбора'"
-      />
+      <label class="field">
+        <span>Изображения</span>
+        <DropZoneImage
+          v-model:previews="photoPreviews"
+          :previewText="'Перетащите изображение или кликните для выбора'"
+          multiple
+        />
+      </label>
       <label class="field">
         <span>Цена</span>
         <input
@@ -21,14 +25,23 @@
         />
       </label>
       <label class="field">
+        <span>Предпросмотр</span>
+        <DropZoneImage
+          v-model:previews="gifPreview"
+          :previewText="'Перетащите gif или кликните для выбора'"
+        />
+      </label>
+      <label class="field">
+        <span>Инструкция</span>
+        <DropZoneFile
+          v-model:previews="pdfPreview"
+          :previewText="'Перетащите pdf или кликните для выбора'"
+        />
+      </label>
+      <label class="field">
         <span>Описание</span>
         <textarea v-model="description" required></textarea>
       </label>
-
-      <DropZone
-        v-model:preview="gifPreview"
-        :previewText="'Перетащите gif или кликните для выбора'"
-      />
       <p v-if="error" class="error">{{ error }}</p>
       <button type="submit" class="button" :disabled="loading">
         {{ loading ? "Сохранение..." : "Создать" }}
@@ -38,15 +51,17 @@
 </template>
 
 <script setup lang="ts">
-import DropZone from "~/Share/UI/DropZone/index.vue";
+import DropZoneImage from "~/entities/DropZoneImage.vue";
+import DropZoneFile from "~/entities/DropZoneFile.vue";
 import { createProduct } from "~/api/product";
 import dataURLtoBlob from "~/utils/dataURLtoBlob";
 
 const name = ref("");
 const description = ref("");
 const price = ref<number | null>(null);
-const photoPreview = ref<string | null>(null);
-const gifPreview = ref<string | null>(null);
+const photoPreviews = ref<string[]>([]);
+const gifPreview = ref<string[]>([]);
+const pdfPreview = ref<string[]>([]);
 const loading = ref(false);
 const error = ref("");
 
@@ -59,12 +74,13 @@ const handleSubmit = async () => {
     formData.append("name", name.value);
     formData.append("description", description.value);
     formData.append("price", price.value.toString());
-    formData.append("photo", dataURLtoBlob(photoPreview.value || ""));
+    formData.append("photo", dataURLtoBlob(photoPreviews.value[0] || ""));
     await createProduct(formData as unknown as CreateProductPayload);
     name.value = "";
     description.value = "";
     price.value = null;
-    photoPreview.value = null;
+    photoPreviews.value = [];
+    gifPreview.value = [];
     navigateTo("/");
   } catch (e) {
     error.value = (e as Error).message;
