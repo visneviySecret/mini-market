@@ -9,7 +9,7 @@
       <label class="field">
         <span>Изображения</span>
         <DropZoneImage
-          v-model:previews="photoPreviews"
+          v-model:previews="imagePreviews"
           :previewText="'Перетащите изображение или кликните для выбора'"
           multiple
         />
@@ -64,7 +64,7 @@ interface FilePreview {
 const name = ref("");
 const description = ref("");
 const price = ref<number | null>(null);
-const photoPreviews = ref<(string | FilePreview)[]>([]);
+const imagePreviews = ref<(string | FilePreview)[]>([]);
 const gifPreview = ref<(string | FilePreview)[]>([]);
 const pdfPreview = ref<(string | FilePreview)[]>([]);
 const loading = ref(false);
@@ -83,14 +83,30 @@ const handleSubmit = async () => {
     formData.append("name", name.value);
     formData.append("description", description.value);
     formData.append("price", price.value.toString());
-    const firstPhoto = photoPreviews.value[0];
-    formData.append("photo", dataURLtoBlob(getDataUrl(firstPhoto) || ""));
+    formData.append("category", "1");
+
+    imagePreviews.value.forEach((image) => {
+      const blob = dataURLtoBlob(getDataUrl(image));
+      formData.append("images", blob);
+    });
+
+    if (gifPreview.value.length > 0) {
+      const gifBlob = dataURLtoBlob(getDataUrl(gifPreview.value[0]));
+      formData.append("preview", gifBlob);
+    }
+
+    if (pdfPreview.value.length > 0) {
+      const pdfBlob = dataURLtoBlob(getDataUrl(pdfPreview.value[0]));
+      formData.append("instruction", pdfBlob);
+    }
+
     await createProduct(formData as unknown as CreateProductPayload);
     name.value = "";
     description.value = "";
     price.value = null;
-    photoPreviews.value = [];
+    imagePreviews.value = [];
     gifPreview.value = [];
+    pdfPreview.value = [];
     navigateTo("/");
   } catch (e) {
     error.value = (e as Error).message;

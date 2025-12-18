@@ -1,11 +1,12 @@
 interface Product {
-  id: number;
-  name: string;
   description: string;
+  id: number;
+  images: string[];
+  name: string;
+  preview: string;
   price: number;
-  photo: string;
 }
 
 interface CreateProductPayload extends Omit<Product, "id" | "photo"> {
-  photo: Blob;
+  images: Blob[];
 }

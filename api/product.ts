@@ -6,7 +6,7 @@ async function getProducts(): Promise<Product[]> {
 }
 
 async function createProduct(payload: CreateProductPayload) {
-  const response = await apiClient.post("/products", payload);
+  const response = await apiClient.post("/products/create", payload);
   return response.data;
 }
 

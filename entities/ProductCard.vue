@@ -1,7 +1,11 @@
 <template>
   <div class="product-card">
-    <div class="product-image-wrap">
-      <img :src="product.photo" :alt="product.name" class="product-image" />
+    <div
+      class="product-image-wrap"
+      @mouseenter="isHovered = true"
+      @mouseleave="isHovered = false"
+    >
+      <img :src="currentImage" :alt="product.name" class="product-image" />
     </div>
 
     <div class="product-body">
@@ -32,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
 import { useStore } from "vuex";
 
@@ -41,6 +45,7 @@ const props = defineProps<{
 }>();
 
 const store = useStore();
+const isHovered = ref(false);
 
 const storedProduct = computed(() => {
   return store.getters.allCart.find(
@@ -63,6 +68,13 @@ const handleAddProductToCart = () => {
 const formattedPrice = computed(() =>
   props.product.price.toLocaleString("ru-RU")
 );
+
+const currentImage = computed(() => {
+  if (isHovered.value && props.product.preview) {
+    return props.product.preview;
+  }
+  return props.product.images[0];
+});
 </script>
 
 <style scoped lang="scss">
@@ -95,6 +107,7 @@ const formattedPrice = computed(() =>
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: opacity 0.3s ease;
 }
 
 .product-body {
