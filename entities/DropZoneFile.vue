@@ -39,7 +39,7 @@
               />
             </svg>
           </div>
-          <span class="file-name">PDF файл {{ index + 1 }}</span>
+          <span class="file-name">{{ getFileName(item) }}</span>
           <button
             type="button"
             class="preview-clear"
@@ -56,15 +56,27 @@
 <script setup lang="ts">
 import DropZone from "~/UI/DropZone/index.vue";
 
+interface FilePreview {
+  dataUrl: string;
+  name: string;
+}
+
 const props = defineProps<{
-  previews: string[];
+  previews: (string | FilePreview)[];
   previewText?: string;
   multiple?: boolean;
 }>();
 
 const emit = defineEmits<{
-  (e: "update:previews", value: string[]): void;
+  (e: "update:previews", value: (string | FilePreview)[]): void;
 }>();
+
+const getFileName = (item: string | FilePreview): string => {
+  if (typeof item === "string") {
+    return "Файл";
+  }
+  return item.name;
+};
 </script>
 
 <style scoped lang="scss">

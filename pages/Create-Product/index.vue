@@ -56,14 +56,23 @@ import DropZoneFile from "~/entities/DropZoneFile.vue";
 import { createProduct } from "~/api/product";
 import dataURLtoBlob from "~/utils/dataURLtoBlob";
 
+interface FilePreview {
+  dataUrl: string;
+  name: string;
+}
+
 const name = ref("");
 const description = ref("");
 const price = ref<number | null>(null);
-const photoPreviews = ref<string[]>([]);
-const gifPreview = ref<string[]>([]);
-const pdfPreview = ref<string[]>([]);
+const photoPreviews = ref<(string | FilePreview)[]>([]);
+const gifPreview = ref<(string | FilePreview)[]>([]);
+const pdfPreview = ref<(string | FilePreview)[]>([]);
 const loading = ref(false);
 const error = ref("");
+
+const getDataUrl = (item: string | FilePreview): string => {
+  return typeof item === "string" ? item : item.dataUrl;
+};
 
 const handleSubmit = async () => {
   if (price.value === null) return;
@@ -74,7 +83,8 @@ const handleSubmit = async () => {
     formData.append("name", name.value);
     formData.append("description", description.value);
     formData.append("price", price.value.toString());
-    formData.append("photo", dataURLtoBlob(photoPreviews.value[0] || ""));
+    const firstPhoto = photoPreviews.value[0];
+    formData.append("photo", dataURLtoBlob(getDataUrl(firstPhoto) || ""));
     await createProduct(formData as unknown as CreateProductPayload);
     name.value = "";
     description.value = "";

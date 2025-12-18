@@ -27,9 +27,14 @@
 </template>
 
 <script setup lang="ts">
+interface FilePreview {
+  dataUrl: string;
+  name: string;
+}
+
 const props = withDefaults(
   defineProps<{
-    previews: string[];
+    previews: (string | FilePreview)[];
     placeholderText?: string;
     multiple?: boolean;
     accept: string;
@@ -41,7 +46,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  (e: "update:previews", value: string[]): void;
+  (e: "update:previews", value: (string | FilePreview)[]): void;
 }>();
 
 const isDragActive = ref(false);
@@ -73,15 +78,18 @@ const addFiles = async (files: File[]) => {
   const acceptedFiles = files.filter((file) => isFileAccepted(file));
   if (!acceptedFiles.length) return;
 
-  const urls = await Promise.all(
-    acceptedFiles.map((file) => readFileAsDataUrl(file))
+  const filePreviews = await Promise.all(
+    acceptedFiles.map(async (file) => ({
+      dataUrl: await readFileAsDataUrl(file),
+      name: file.name,
+    }))
   );
 
   if (!props.multiple) {
-    const last = urls[urls.length - 1];
+    const last = filePreviews[filePreviews.length - 1];
     emit("update:previews", last ? [last] : []);
   } else {
-    emit("update:previews", [...props.previews, ...urls]);
+    emit("update:previews", [...props.previews, ...filePreviews]);
   }
 };
 

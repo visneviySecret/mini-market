@@ -13,7 +13,7 @@
           :key="index"
           class="preview-item"
         >
-          <img :src="item" alt="preview" class="preview-img" />
+          <img :src="getDataUrl(item)" alt="preview" class="preview-img" />
           <button
             type="button"
             class="preview-clear"
@@ -30,15 +30,27 @@
 <script setup lang="ts">
 import DropZone from "~/UI/DropZone/index.vue";
 
+interface FilePreview {
+  dataUrl: string;
+  name: string;
+}
+
 const props = defineProps<{
-  previews: string[];
+  previews: (string | FilePreview)[];
   previewText?: string;
   multiple?: boolean;
 }>();
 
 const emit = defineEmits<{
-  (e: "update:previews", value: string[]): void;
+  (e: "update:previews", value: (string | FilePreview)[]): void;
 }>();
+
+const getDataUrl = (item: string | FilePreview): string => {
+  if (typeof item === "string") {
+    return item;
+  }
+  return item.dataUrl;
+};
 </script>
 
 <style scoped lang="scss">
