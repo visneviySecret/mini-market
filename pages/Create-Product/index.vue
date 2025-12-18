@@ -20,16 +20,6 @@
           required
         />
       </label>
-      <label class="field">
-        <span>Остаток</span>
-        <input
-          v-model.number="remaining"
-          type="number"
-          min="0"
-          step="1"
-          required
-        />
-      </label>
       <div
         class="dropzone"
         :class="{ 'dropzone--active': isDragActive }"
@@ -74,7 +64,6 @@ import dataURLtoBlob from "~/utils/dataURLtoBlob";
 const name = ref("");
 const description = ref("");
 const price = ref<number | null>(null);
-const remaining = ref<number | null>(null);
 const photoPreview = ref<string | null>(null);
 const isDragActive = ref(false);
 const fileInput = ref<HTMLInputElement | null>(null);
@@ -114,7 +103,7 @@ const clearPreview = () => {
 };
 
 const handleSubmit = async () => {
-  if (price.value === null || remaining.value === null) return;
+  if (price.value === null) return;
   try {
     loading.value = true;
     error.value = "";
@@ -122,13 +111,11 @@ const handleSubmit = async () => {
     formData.append("name", name.value);
     formData.append("description", description.value);
     formData.append("price", price.value.toString());
-    formData.append("remaining", remaining.value.toString());
     formData.append("photo", dataURLtoBlob(photoPreview.value || ""));
     await createProduct(formData as unknown as CreateProductPayload);
     name.value = "";
     description.value = "";
     price.value = null;
-    remaining.value = null;
     photoPreview.value = null;
     if (fileInput.value) fileInput.value.value = "";
     navigateTo("/");
