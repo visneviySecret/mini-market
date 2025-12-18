@@ -7,19 +7,16 @@
       </h3>
       <p class="content__specs">
         {{ product.specs }}
+        {{ product }}
       </p>
-      <p class="content__article">Артикул: {{ product.article }}</p>
     </div>
-    <ControlButtons
-      :count="count"
-      :cost="getFormatNumber(product.price)"
-      :handleIncrement="handleIncrement"
-      :handleDecrement="handleDecrement"
-    />
     <span class="cost"
       >{{ getFormatNumber(product.price * count || product.quantity) }} ₽</span
     >
-    <div class="cross-wrapper" @click="removeProductById(product.id)">
+    <div
+      class="cross-wrapper"
+      @click="removeProductFromCart(product.product_id)"
+    >
       <CrossIcon />
     </div>
   </div>
@@ -27,7 +24,6 @@
 
 <script>
 import CrossIcon from "@/UI/CrossIcon/index";
-import ControlButtons from "@/Share/ControlButtons/index";
 import { mapActions } from "vuex";
 import { getFormatNumber } from "@/utils/getFormatNumber";
 
@@ -35,20 +31,22 @@ export default {
   props: ["product", "count"],
   methods: {
     ...mapActions([
-      "removeProductById",
+      "removeProductFromCart",
       "incrementCounter",
       "decrementCounter",
     ]),
     handleIncrement() {
-      this.incrementCounter(this.product.id);
+      this.incrementCounter(this.product.product_id);
     },
     handleDecrement() {
-      this.decrementCounter(this.product.id);
+      this.decrementCounter(this.product.product_id);
+    },
+    onMounted() {
+      console.log(this.product);
     },
   },
   components: {
     CrossIcon,
-    ControlButtons,
   },
 };
 </script>

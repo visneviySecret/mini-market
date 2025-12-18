@@ -1,4 +1,7 @@
-export const getFormatNumber = (value) => {
+export const getFormatNumber = (value: number) => {
+  if (typeof value !== "number") {
+    return "0";
+  }
   const numberString = value.toString();
   const length = numberString.length;
   if (length <= 3) return numberString;

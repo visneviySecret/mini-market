@@ -5,18 +5,23 @@
       <span class="user-label">Аккаунт</span>
     </button>
     <div v-if="isOpen" class="user-dropdown">
-      <button type="button" class="user-item" @click.stop="openSettings">
-        Настройки
+      <template v-if="isAuthenticated">
+        <button type="button" class="user-item" @click.stop="openSettings">
+          Настройки
+        </button>
+        <button
+          v-if="isAdmin"
+          type="button"
+          class="user-item"
+          @click.stop="createProduct"
+        >
+          Добавить товар
+        </button>
+        <LogoutButton class="user-item user-item--logout" />
+      </template>
+      <button v-else type="button" class="user-item" @click.stop="goToAuth">
+        Войти в аккаунт
       </button>
-      <button
-        v-if="isAdmin"
-        type="button"
-        class="user-item"
-        @click.stop="createProduct"
-      >
-        Добавить товар
-      </button>
-      <LogoutButton class="user-item user-item--logout" />
     </div>
   </div>
 </template>
@@ -27,6 +32,7 @@ import { useStore } from "vuex";
 
 const store = useStore();
 const isOpen = ref(false);
+const isAuthenticated = computed(() => !!store.getters.user?.id);
 const isAdmin = computed(() => store.getters.user?.role === "admin");
 const dropdownRef = ref<HTMLDivElement | null>(null);
 
@@ -50,6 +56,11 @@ const openSettings = () => {
 const createProduct = () => {
   isOpen.value = false;
   navigateTo("/create-product");
+};
+
+const goToAuth = () => {
+  isOpen.value = false;
+  navigateTo("/authorize");
 };
 
 onMounted(() => {

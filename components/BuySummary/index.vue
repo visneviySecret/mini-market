@@ -21,7 +21,7 @@
 <script>
 import SummaryButtons from "@/Share/SummaryButtons/index.vue";
 import { mapGetters } from "vuex";
-import { getFormatNumber } from "@/utils/getFormatNumber";
+import { getFormatNumber } from "~/utils/getFormatNumber";
 
 export default {
   props: ["product", "count"],

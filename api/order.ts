@@ -1,7 +1,7 @@
 import apiClient from "~/utils/axios";
 
 export async function createOrder(order: OrderRequest) {
-  const response = await apiClient.post("/order", order);
+  const response = await apiClient.post("/order/create", order);
   return response.data;
 }
 

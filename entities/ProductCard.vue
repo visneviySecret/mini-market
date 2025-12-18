@@ -43,7 +43,7 @@ const props = defineProps<{
 const store = useStore();
 
 const storedProduct = computed(() => {
-  return store.state.cart.products.find(
+  return store.getters.allCart.find(
     (item: { product: Product }) => item.product.id === props.product.id
   );
 });
@@ -173,6 +173,7 @@ const formattedPrice = computed(() =>
 
 .product-button:hover {
   opacity: 0.7;
+  transition: opacity 0.15s;
 }
 
 .product-button:active {

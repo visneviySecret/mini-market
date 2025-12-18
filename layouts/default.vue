@@ -21,27 +21,35 @@ const auth = useCookie(import.meta.env.VITE_RESRESH_TOKEN);
 
 onMounted(async () => {
   if (auth.value && !store.getters.user?.id) {
-    try {
-      const userData = await getUserMe();
-      store.dispatch("setUser", userData);
-
-      const userOrder = await getMyOrder();
-      userOrder.items.forEach((item) => {
-        store.commit("addProductToCart", item);
-      });
-    } catch (error) {
-      console.error("Ошибка загрузки пользователя:", error);
-    } finally {
-      store.commit("setCartStatus", "loaded");
-    }
+    await loadUserOrderFromServer();
   } else if (!auth.value) {
-    const savedCart = loadCartFromLocalStorage();
-    if (savedCart && savedCart.length > 0) {
-      store.commit("updateCart", savedCart);
-      store.commit("setCartStatus", "loaded");
-    }
+    await loadUserOrderFromLocalStorage();
   }
 });
+const loadUserOrderFromServer = async () => {
+  try {
+    const userData = await getUserMe();
+    store.dispatch("setUser", userData);
+
+    const userOrder = await getMyOrder();
+    userOrder.items.forEach((item) => {
+      store.commit("addProductToCart", item);
+    });
+    store.commit("setOrderId", userOrder.id);
+  } catch (error) {
+    console.error("Ошибка загрузки пользователя:", error);
+  } finally {
+    store.commit("setCartStatus", "loaded");
+  }
+};
+
+const loadUserOrderFromLocalStorage = async () => {
+  const savedCart = loadCartFromLocalStorage();
+  if (savedCart && savedCart.length > 0) {
+    store.commit("updateCart", savedCart);
+  }
+  store.commit("setCartStatus", "loaded");
+};
 </script>
 
 <style lang="scss" scoped>

@@ -1,4 +1,13 @@
+import axios from "axios";
 import apiClient from "~/utils/axios";
+
+const refreshClient = axios.create({
+  baseURL: (import.meta.env.VITE_API_URL as string) || "http://localhost:3000",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+});
 
 async function signup(email: string, password: string) {
   const response = await apiClient.post("/users/signup", { email, password });
@@ -11,7 +20,7 @@ async function login(email: string, password: string) {
 }
 
 async function refreshToken() {
-  const response = await apiClient.post("/users/refresh-token");
+  const response = await refreshClient.get("/users/refresh-token");
   return response.data;
 }
 

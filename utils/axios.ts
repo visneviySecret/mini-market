@@ -31,18 +31,21 @@ apiClient.interceptors.response.use(
         error.response.data?.message ||
         error.response.data?.error ||
         "Произошла ошибка";
-
-      if (error.response.status === 401) {
+      const originalRequest = error.config;
+      if (error.response.status === 401 && !originalRequest?._isRetry) {
+        originalRequest._isRetry = true;
         const auth = useCookie<string | undefined>(
           import.meta.env.VITE_RESRESH_TOKEN as string
         );
+        auth.value = undefined;
         try {
           const response = await refreshToken();
           auth.value = response.tokens.refreshToken;
           return apiClient.request(error.config);
         } catch (err) {
-          auth.value = undefined;
-          return navigateTo("/authorize");
+          // TODO это поведение по переадресации на авторизацию всегда вызывается,
+          // даже когда рефреш успешно пришёл, пока уберём
+          // return navigateTo("/authorize");
         }
       }
       return Promise.reject(new Error(message));

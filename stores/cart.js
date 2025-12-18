@@ -135,7 +135,7 @@ export default {
       const existingProduct = state.products.find(
         (item) => item.product.id === productId
       );
-      if (existingProduct && existingProduct.count > 0) {
+      if (existingProduct && existingProduct.count > 1) {
         existingProduct.count -= 1;
       } else {
         state.products = state.products.filter(
