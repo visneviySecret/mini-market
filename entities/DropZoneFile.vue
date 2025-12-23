@@ -123,5 +123,3 @@ const getFileName = (item: string | FilePreview): string => {
   border-color: #cbd5e1;
 }
 </style>
-
-
