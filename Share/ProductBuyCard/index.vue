@@ -34,14 +34,12 @@ export default {
       "incrementCounter",
       "decrementCounter",
     ]),
+    getFormatNumber,
     handleIncrement() {
       this.incrementCounter(this.product.product_id);
     },
     handleDecrement() {
       this.decrementCounter(this.product.product_id);
-    },
-    onMounted() {
-      console.log(this.product);
     },
   },
   components: {
