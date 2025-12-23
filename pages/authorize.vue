@@ -75,7 +75,7 @@ const error = ref("");
 const loading = ref(false);
 
 const auth = useCookie<string | undefined>(
-  import.meta.env.VITE_RESRESH_TOKEN as string
+  import.meta.env.VITE_REFRESH_TOKEN as string
 );
 
 const onSubmit = async () => {

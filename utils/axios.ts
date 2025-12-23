@@ -35,7 +35,7 @@ apiClient.interceptors.response.use(
       if (error.response.status === 401 && !originalRequest?._isRetry) {
         originalRequest._isRetry = true;
         const auth = useCookie<string | undefined>(
-          import.meta.env.VITE_RESRESH_TOKEN as string
+          import.meta.env.VITE_REFRESH_TOKEN as string
         );
         auth.value = undefined;
         try {
