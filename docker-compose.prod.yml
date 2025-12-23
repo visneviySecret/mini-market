@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-https://poshagam.shop/api}
     container_name: poshagam-client
     restart: unless-stopped
     ports:

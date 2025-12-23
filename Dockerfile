@@ -11,6 +11,9 @@ RUN yarn install --frozen-lockfile
 
 FROM base AS builder
 
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
@@ -19,6 +22,9 @@ RUN yarn build
 FROM base AS runner
 
 ENV NODE_ENV=production
+
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nuxtjs
