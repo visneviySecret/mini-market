@@ -1,16 +1,16 @@
 <template>
   <div class="wrapper">
-    <img
-      :src="product.product_images[0] || product.images[0]"
-      :alt="product.title"
-    />
+    <img :src="product.images[0]" :alt="product.title" />
     <div class="content">
       <h3 class="content__title">
         {{ product.product_name || product.name }}
       </h3>
     </div>
     <span class="cost"
-      >{{ getFormatNumber(product.price * count || product.quantity) }} ₽</span
+      >{{
+        getFormatNumber(product.price * (product.count || product.quantity))
+      }}
+      ₽</span
     >
     <div
       class="cross-wrapper"
@@ -27,7 +27,7 @@ import { mapActions } from "vuex";
 import { getFormatNumber } from "@/utils/getFormatNumber";
 
 export default {
-  props: ["product", "count"],
+  props: ["product"],
   methods: {
     ...mapActions([
       "removeProductFromCart",

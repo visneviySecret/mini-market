@@ -12,10 +12,7 @@
         <div class="product-list">
           <TransitionGroup name="fade" tag="ul" class="container">
             <li v-for="product in allCart" :key="product.product.id">
-              <ProductBuyCard
-                :product="product.product"
-                :count="product.count"
-              />
+              <ProductBuyCard :product="product.product" />
             </li>
           </TransitionGroup>
         </div>
