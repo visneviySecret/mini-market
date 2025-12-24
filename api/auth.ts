@@ -24,4 +24,9 @@ async function refreshToken() {
   return response.data;
 }
 
-export { signup, login, refreshToken };
+async function logout() {
+  const response = await apiClient.post("/users/logout");
+  return response.data;
+}
+
+export { signup, login, refreshToken, logout };

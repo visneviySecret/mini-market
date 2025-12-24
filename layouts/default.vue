@@ -32,10 +32,12 @@ const loadUserOrderFromServer = async () => {
     store.dispatch("setUser", userData);
 
     const userOrder = await getMyOrder();
-    userOrder.items.forEach((item) => {
+    userOrder?.items.forEach((item) => {
       store.commit("addProductToCart", item);
     });
-    store.commit("setOrderId", userOrder.id);
+    if (userOrder) {
+      store.commit("setOrderId", userOrder.id);
+    }
   } catch (error) {
     console.error("Ошибка загрузки пользователя:", error);
   } finally {
