@@ -37,9 +37,6 @@ export default {
     removeAddress({ commit }, addressId) {
       commit("removeAddress", addressId);
     },
-    clearUser({ commit }) {
-      commit("clearUser");
-    },
   },
   mutations: {
     setUser(state, userData) {

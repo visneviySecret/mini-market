@@ -25,3 +25,4 @@ export const saveCartToLocalStorage = (products: unknown) => {
 
   window.localStorage.setItem(LOCAL_CART, JSON.stringify(products));
 };
+
